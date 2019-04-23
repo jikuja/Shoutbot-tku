@@ -1,0 +1,15 @@
+{
+  "name": "shoutbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-irc": "0.0.4",
+    "ws": "^6.2.1"
+  }
+}
