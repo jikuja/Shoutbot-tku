@@ -3,7 +3,7 @@ var ircClient = require('node-irc');
 const channel = process.env.CHANNEL || false;
 const nick = process.env.NICK || false;
 const server = process.env.SERVER || 'irc.nebula.fi';
-const port = process.env.SERVER || 6667;
+const port = process.env.PORT || 6667;
 const realName = process.env.REALNAME || 'bot';
 
 if (!channel || !nick) {
@@ -15,10 +15,11 @@ var client = new ircClient(server, port, nick, realName);
 
 client.on('ready', function () {
   client.join(channel);
-
   startws(client);
 });
 
+//client.verbosity = 3;
+//client.debug = true;
 client.connect();
 
 
@@ -30,13 +31,18 @@ function startws(client) {
   ws.on('open', function open() {
     console.log('websocket open');
   });
- 
+
   ws.on('message', function incoming(data) {
-    if (data !== 'PING' && !data.startsWith('Turun Wappuradio -')) {
-      console.log(data);
-      client.notice(channel, 'Nyt soi: ' + data)
-    } else {
+    if (data === 'PING') {
       ws.send('PONG');
+      return;
+    }
+
+    if (data.startsWith('Turun Wappuradio -')) {
+      console.log('jinkku: ' + data);
+    } else {
+      console.log('biisi: ' + data);
+      client.notice(channel, 'Nyt soi: ' + data)
     }
   });
 }
