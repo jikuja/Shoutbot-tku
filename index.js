@@ -1,12 +1,11 @@
 var ircClient = require('node-irc');
 
-
-var client = new ircClient('irc.nebula.fi', 6667, 'ShoutbotTku', 'Boten Anna');
+const channel = '#turunwappuradio'
+var client = new ircClient('irc.nebula.fi', 6667, 'ShoutbotTku', 'In case of emergency ban bot and ping IoP');
 
 client.on('ready', function () {
   console.log('Connected to IRC!');
-  client.join('#turunwappuradio-boten');
-  client.say('#turunwappuradio-boten', 'Ready to rock?');
+  client.join(channel);
 
   startws(client);
 });
@@ -27,7 +26,7 @@ function startws(client) {
   ws.on('message', function incoming(data) {
     if (data !== 'PING') {
       console.log(data);
-      client.say('turunwappuradio-boten', "np: " + data)
+      client.say(channel, "np: " + data)
     } else {
       ws.send('PONG');
     }
