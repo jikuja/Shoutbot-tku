@@ -1,16 +1,24 @@
 var ircClient = require('node-irc');
 
-const channel = '#turunwappuradio'
-var client = new ircClient('irc.nebula.fi', 6667, 'ShoutbotTku', 'In case of emergency ban bot and ping IoP');
+const channel = process.env.CHANNEL || false;
+const nick = process.env.NICK || false;
+const server = process.env.SERVER || 'irc.nebula.fi';
+const port = process.env.SERVER || 6667;
+const realName = process.env.REALNAME || 'bot';
+
+if (!channel || !nick) {
+  console.log('Missing required environment variables');
+  process.exit(1);
+}
+
+var client = new ircClient(server, port, nick, realName);
 
 client.on('ready', function () {
-  console.log('Connected to IRC!');
   client.join(channel);
 
   startws(client);
 });
 
-console.log('Connecting to IRC...');
 client.connect();
 
 
@@ -26,7 +34,7 @@ function startws(client) {
   ws.on('message', function incoming(data) {
     if (data !== 'PING') {
       console.log(data);
-      client.say(channel, "np: " + data)
+      client.notice(channel, 'Nyt soi: ' + data)
     } else {
       ws.send('PONG');
     }
