@@ -32,7 +32,7 @@ function startws(client) {
   });
  
   ws.on('message', function incoming(data) {
-    if (data !== 'PING') {
+    if (data !== 'PING' && !data.startsWith('Turun Wappuradio -')) {
       console.log(data);
       client.notice(channel, 'Nyt soi: ' + data)
     } else {
