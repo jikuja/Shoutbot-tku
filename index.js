@@ -23,11 +23,11 @@ client.on('ready', function () {
 client.connect();
 
 
-function startws(client) {
+var startws = function (client) {
   const WebSocket = require('ws');
- 
+
   const ws = new WebSocket('wss://music-metadata-server.herokuapp.com/');
- 
+
   ws.on('open', function open() {
     console.log('websocket open');
   });
@@ -48,6 +48,7 @@ function startws(client) {
 
   ws.on('close', function close(code, message) {
     console.log('Close event received! code: ' + code + " message: " + message);
-    this.startws(client);
-  }.bind(this));
-}
+    startws(client);
+  });
+};
+
