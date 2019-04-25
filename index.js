@@ -38,6 +38,11 @@ var startws = function (client) {
       return;
     }
 
+    if (data.startsWith(' - ')) {
+      console.log('jotain: ' + data);
+      return;
+    }
+
     if (data.startsWith('Turun Wappuradio -')) {
       console.log('jinkku: ' + data);
     } else {
