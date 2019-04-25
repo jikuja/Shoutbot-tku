@@ -45,4 +45,9 @@ function startws(client) {
       client.notice(channel, 'Nyt soi: ' + data)
     }
   });
+
+  ws.on('close', function close(code, message) {
+    console.log('Close event received! code: ' + code + " message: " + message);
+    this.startws(client);
+  }.bind(this));
 }
